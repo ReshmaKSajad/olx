@@ -15,7 +15,19 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-
+from user.views import VehiclesView,VehicleDetailsView,ReviewsView,ReviewDetailsView,\
+    VehicleViewSetView,VehicleModelViewsetView,ReviewModelViewsetView,UsersView
+from rest_framework.routers import DefaultRouter
+router = DefaultRouter()
+router.register("user/v1/vehicles",VehicleViewSetView,basename="vehicles")
+router.register("user/v2/vehicles",VehicleModelViewsetView,basename="cars")
+router.register("user/v1/reviews",ReviewModelViewsetView,basename="reviews")
+router.register("register",UsersView,basename="users")
 urlpatterns = [
     path('admin/', admin.site.urls),
-]
+    path('vehicles',VehiclesView.as_view()),
+    path('vehicles/<int:id>',VehicleDetailsView.as_view()),
+    path('reviews',ReviewsView.as_view()),
+    path('reviews/<int:id>',ReviewDetailsView.as_view())
+
+]+ router.urls
